@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanisha Kishan | Investment Operations Intelligence Platform</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0a0e1a;
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,14,26,0.95);
+    backdrop-filter: blur(10px);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-bottom: 1px solid rgba(99,179,237,0.2);
+  }
+  nav .logo { font-size: 18px; font-weight: 700; color: #63b3ed; }
+  nav .links a {
+    color: #a0aec0;
+    text-decoration: none;
+    margin-left: 28px;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  nav .links a:hover { color: #63b3ed; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 40px 60px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(99,179,237,0.08) 0%, transparent 70%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(99,179,237,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,179,237,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(99,179,237,0.1);
+    border: 1px solid rgba(99,179,237,0.3);
+    color: #63b3ed;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #63b3ed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .subtitle {
+    font-size: 18px;
+    color: #a0aec0;
+    max-width: 600px;
+    margin: 0 auto 12px;
+  }
+  .hero .acadian-note {
+    font-size: 14px;
+    color: #63b3ed;
+    font-style: italic;
+    margin-bottom: 36px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: #63b3ed;
+    color: #0a0e1a;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #90cdf4; transform: translateY(-2px); }
+  .btn-secondary {
+    border: 1px solid rgba(99,179,237,0.4);
+    color: #63b3ed;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: #63b3ed; background: rgba(99,179,237,0.05); }
+
+  /* METRICS BAR */
+  .metrics {
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(99,179,237,0.1);
+    border-bottom: 1px solid rgba(99,179,237,0.1);
+    padding: 32px 40px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+  .metric { text-align: center; }
+  .metric-value { font-size: 32px; font-weight: 800; color: #63b3ed; }
+  .metric-label { font-size: 12px; color: #718096; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* SECTIONS */
+  section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #63b3ed;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  h2 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
+  .section-desc { color: #a0aec0; font-size: 17px; max-width: 650px; margin-bottom: 48px; }
+
+  /* PROBLEM SECTION */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .problem-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .problem-card:hover { border-color: rgba(99,179,237,0.3); }
+  .problem-icon { font-size: 28px; margin-bottom: 12px; }
+  .problem-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #e2e8f0; }
+  .problem-card p { font-size: 13px; color: #718096; line-height: 1.5; }
+
+  /* SOLUTION SECTION */
+  .solution-bg { background: rgba(99,179,237,0.03); border-top: 1px solid rgba(99,179,237,0.1); border-bottom: 1px solid rgba(99,179,237,0.1); }
+  .solution-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media(max-width: 768px) { .solution-grid { grid-template-columns: 1fr; } }
+  .panel-card {
+    background: rgba(10,14,26,0.8);
+    border: 1px solid rgba(99,179,237,0.15);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.2s;
+  }
+  .panel-card:hover { border-color: rgba(99,179,237,0.4); transform: translateY(-4px); }
+  .panel-num { font-size: 12px; font-weight: 700; color: #63b3ed; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .panel-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .panel-card ul { list-style: none; }
+  .panel-card ul li {
+    font-size: 13px;
+    color: #a0aec0;
+    padding: 5px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+  .panel-card ul li::before { content: '→'; position: absolute; left: 0; color: #63b3ed; }
+
+  /* SQL SECTION */
+  .sql-showcase {
+    background: #0d1117;
+    border: 1px solid rgba(99,179,237,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .sql-header {
+    background: rgba(99,179,237,0.08);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #63b3ed;
+    font-weight: 600;
+  }
+  .sql-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-red { background: #fc8181; }
+  .dot-yellow { background: #f6e05e; }
+  .dot-green { background: #68d391; }
+  pre {
+    padding: 24px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #e2e8f0;
+    font-family: 'Courier New', monospace;
+  }
+  .kw { color: #63b3ed; font-weight: 600; }
+  .fn { color: #fbd38d; }
+  .str { color: #68d391; }
+  .cm { color: #4a5568; font-style: italic; }
+  .num { color: #fc8181; }
+
+  /* USER STORIES */
+  .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+  .story-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .story-role { font-size: 11px; font-weight: 700; color: #63b3ed; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .story-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+  .story-card .criteria { margin-top: 16px; }
+  .story-card .criteria h4 { font-size: 12px; font-weight: 700; color: #a0aec0; text-transform: uppercase; margin-bottom: 8px; }
+  .criteria-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #718096;
+    margin-bottom: 6px;
+  }
+  .check { color: #68d391; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* DATA MAP */
+  .data-flow {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(99,179,237,0.1);
+    border-radius: 16px;
+    padding: 36px;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .flow-source {
+    background: rgba(99,179,237,0.08);
+    border: 1px solid rgba(99,179,237,0.2);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #63b3ed;
+    white-space: nowrap;
+  }
+  .flow-arrow { color: #4a5568; font-size: 18px; }
+  .flow-desc { font-size: 13px; color: #a0aec0; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .skill-chip {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #e2e8f0;
+    transition: all 0.2s;
+  }
+  .skill-chip:hover { border-color: rgba(99,179,237,0.4); color: #63b3ed; }
+  .skill-chip span { display: block; font-size: 11px; color: #4a5568; font-weight: 400; margin-top: 4px; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  @media(max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-text p { color: #a0aec0; font-size: 16px; margin-bottom: 16px; }
+  .about-cta { margin-top: 24px; }
+  .cert-list { display: flex; flex-direction: column; gap: 12px; }
+  .cert-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #a0aec0;
+  }
+  .cert-item strong { color: #e2e8f0; display: block; margin-bottom: 2px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 40px;
+    text-align: center;
+    color: #4a5568;
+    font-size: 14px;
+  }
+  footer a { color: #63b3ed; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: rgba(99,179,237,0.05);
+    border: 1px solid rgba(99,179,237,0.2);
+    border-left: 4px solid #63b3ed;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    font-size: 15px;
+    color: #a0aec0;
+  }
+  .highlight-box strong { color: #63b3ed; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Tanisha Kishan</div>
+  <div class="links">
+    <a href="#problem">Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#queries">SQL</a>
+    <a href="#stories">User Stories</a>
+    <a href="#about">About</a>
+    <a href="https://github.com/tanishakishan" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Built for Acadian Asset Management</div>
+    <h1>Investment Operations<br>Intelligence Platform</h1>
+    <p class="subtitle">A Positions & Transactions Data Quality Dashboard built to solve real operational challenges in systematic investment management.</p>
+    <p class="acadian-note">"In a world of data proliferation, meaningful conclusions can be difficult to reach." — Acadian Asset Management</p>
+    <div class="hero-cta">
+      <a href="#solution" class="btn-primary">See the Solution</a>
+      <a href="https://github.com/tanishakishan/acadian-ops-platform" target="_blank" class="btn-secondary">View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-value">5</div>
+    <div class="metric-label">Portfolios Modeled</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">15</div>
+    <div class="metric-label">Securities (7 Countries)</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">11</div>
+    <div class="metric-label">SQL Queries Written</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">3</div>
+    <div class="metric-label">Dashboard Panels</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">3</div>
+    <div class="metric-label">User Stories + Acceptance Criteria</div>
+  </div>
+</div>
+
+<!-- PROBLEM SECTION -->
+<section id="problem">
+  <div class="section-label">The Problem</div>
+  <h2>What's Broken in Investment Operations</h2>
+  <p class="section-desc">
+    Acadian manages $178B across 40,000+ securities globally. Based on the Investment Operations role requirements and industry research, these are the four pain points this platform addresses.
+  </p>
+
+  <div class="highlight-box">
+    <strong>Industry Fact:</strong> Asset managers spend a significant amount of time gathering, cleaning, and normalizing data before it can be used. <strong>Relying on spreadsheets and emails is no longer enough.</strong> — BNY Future of Asset Management Report, 2024
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">📊</div>
+      <h4>No Centralized Visibility</h4>
+      <p>Portfolio managers lack a single view of daily positions health across all strategies — Global Equity, Low Vol, ESG, EM, and Multi-Asset.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">⚠️</div>
+      <h4>Reactive Data Quality</h4>
+      <p>Missing prices, unverified positions, and reconciliation breaks are discovered late, often after they've impacted downstream processes.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">💸</div>
+      <h4>Settlement Risk</h4>
+      <p>Failed and pending settlements are tracked in disparate systems. Duplicate trades go undetected until end-of-day reconciliation.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📄</div>
+      <h4>Static Reporting</h4>
+      <p>Management receives PDF reports instead of live dashboards — slowing decision-making in a firm that generates expected returns multiple times per day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION SECTION -->
+<div class="solution-bg">
+<section id="solution" style="max-width:1100px; margin:0 auto; padding:80px 40px;">
+  <div class="section-label">The Solution</div>
+  <h2>Three-Panel Operations Dashboard</h2>
+  <p class="section-desc">A management reporting dashboard built on a structured PostgreSQL database with 11 analytical queries, 3 user stories, and a full data mapping document.</p>
+
+  <div class="solution-grid">
+    <div class="panel-card">
+      <div class="panel-num">Panel 01</div>
+      <h3>Portfolio Health</h3>
+      <ul>
+        <li>AUM and market value by portfolio</li>
+        <li>Position verification rate (color-coded)</li>
+        <li>Missing price count with drill-down</li>
+        <li>Asset class exposure breakdown</li>
+        <li>Top 10 holdings across all funds</li>
+        <li>Unrealized P&L summary</li>
+      </ul>
+    </div>
+    <div class="panel-card">
+      <div class="panel-num">Panel 02</div>
+      <h3>Transaction Monitor</h3>
+      <ul>
+        <li>All pending settlements with countdown</li>
+        <li>Failed trades highlighted with broker</li>
+        <li>Automatic duplicate detection</li>
+        <li>Daily volume by type and portfolio</li>
+        <li>Settlement aging buckets</li>
+        <li>Drill-down to individual trades</li>
+      </ul>
+    </div>
+    <div class="panel-card">
+      <div class="panel-num">Panel 03</div>
+      <h3>Data Quality KPIs</h3>
+      <ul>
+        <li>Open / In-Progress / Resolved counts</li>
+        <li>Issues by type: Missing Price, Duplicate, Settlement Fail, Recon Break</li>
+        <li>HIGH / MEDIUM / LOW severity split</li>
+        <li>30-day trend: raised vs. resolved</li>
+        <li>Open issues by portfolio</li>
+        <li>Average time-to-resolution</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- SQL SECTION -->
+<section id="queries">
+  <div class="section-label">SQL Queries</div>
+  <h2>11 Analytical Queries</h2>
+  <p class="section-desc">Written in PostgreSQL. Each query powers a specific section of the dashboard or supports a core BA responsibility — data mapping, reconciliation, and incident detection.</p>
+
+  <div class="sql-showcase">
+    <div class="sql-header">
+      <div class="sql-dot dot-red"></div>
+      <div class="sql-dot dot-yellow"></div>
+      <div class="sql-dot dot-green"></div>
+      Query 6 — Duplicate Transaction Detection (Critical Data Quality Check)
+    </div>
+    <pre><span class="cm">-- Automatically flags potential duplicate trades before settlement</span>
+<span class="kw">SELECT</span>
+    t1.portfolio_id,
+    sec.ticker,
+    t1.transaction_type,
+    t1.trade_date,
+    t1.quantity,
+    t1.price,
+    t1.broker,
+    <span class="fn">COUNT</span>(*) <span class="kw">AS</span> duplicate_count,
+    <span class="fn">STRING_AGG</span>(t1.transaction_id, <span class="str">', '</span>) <span class="kw">AS</span> transaction_ids
+<span class="kw">FROM</span> transactions t1
+<span class="kw">JOIN</span> securities sec <span class="kw">ON</span> t1.security_id = sec.security_id
+<span class="kw">GROUP BY</span>
+    t1.portfolio_id, t1.security_id, sec.ticker,
+    t1.transaction_type, t1.trade_date,
+    t1.quantity, t1.price, t1.broker
+<span class="kw">HAVING COUNT</span>(*) &gt; <span class="num">1</span>
+<span class="kw">ORDER BY</span> duplicate_count <span class="kw">DESC</span>;</pre>
+  </div>
+
+  <div class="sql-showcase">
+    <div class="sql-header">
+      <div class="sql-dot dot-red"></div>
+      <div class="sql-dot dot-yellow"></div>
+      <div class="sql-dot dot-green"></div>
+      Query 10 — Position-Transaction Reconciliation (Core BA Responsibility)
+    </div>
+    <pre><span class="cm">-- Validates that transaction activity matches position changes between two dates</span>
+<span class="kw">WITH</span> position_changes <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> p1.portfolio_id, p1.security_id,
+           p1.quantity <span class="kw">AS</span> qty_day1,
+           p2.quantity <span class="kw">AS</span> qty_day2,
+           (p2.quantity - p1.quantity) <span class="kw">AS</span> position_change
+    <span class="kw">FROM</span> positions p1
+    <span class="kw">JOIN</span> positions p2
+        <span class="kw">ON</span>  p1.portfolio_id = p2.portfolio_id
+        <span class="kw">AND</span> p1.security_id  = p2.security_id
+        <span class="kw">AND</span> p1.position_date = <span class="str">'2026-02-10'</span>
+        <span class="kw">AND</span> p2.position_date = <span class="str">'2026-02-11'</span>
+),
+transaction_activity <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> portfolio_id, security_id,
+           <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> transaction_type = <span class="str">'BUY'</span>  <span class="kw">THEN</span> quantity <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>)
+         - <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> transaction_type = <span class="str">'SELL'</span> <span class="kw">THEN</span> quantity <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>)
+           <span class="kw">AS</span> net_txn_qty
+    <span class="kw">FROM</span> transactions
+    <span class="kw">WHERE</span> trade_date <span class="kw">BETWEEN</span> <span class="str">'2026-02-10'</span> <span class="kw">AND</span> <span class="str">'2026-02-11'</span>
+    <span class="kw">GROUP BY</span> portfolio_id, security_id
+)
+<span class="kw">SELECT</span>
+    pc.portfolio_id, sec.ticker,
+    pc.position_change,
+    <span class="fn">COALESCE</span>(ta.net_txn_qty, <span class="num">0</span>) <span class="kw">AS</span> net_transaction_qty,
+    (pc.position_change - <span class="fn">COALESCE</span>(ta.net_txn_qty, <span class="num">0</span>)) <span class="kw">AS</span> reconciliation_break,
+    <span class="kw">CASE WHEN</span> (pc.position_change - <span class="fn">COALESCE</span>(ta.net_txn_qty, <span class="num">0</span>)) = <span class="num">0</span>
+         <span class="kw">THEN</span> <span class="str">'RECONCILED'</span> <span class="kw">ELSE</span> <span class="str">'BREAK - INVESTIGATE'</span>
+    <span class="kw">END AS</span> reconciliation_status
+<span class="kw">FROM</span> position_changes pc
+<span class="kw">LEFT JOIN</span> transaction_activity ta
+    <span class="kw">ON</span>  pc.portfolio_id = ta.portfolio_id
+    <span class="kw">AND</span> pc.security_id  = ta.security_id
+<span class="kw">JOIN</span> securities sec <span class="kw">ON</span> pc.security_id = sec.security_id
+<span class="kw">ORDER BY</span> reconciliation_status <span class="kw">DESC</span>;</pre>
+  </div>
+</section>
+
+<!-- USER STORIES -->
+<section id="stories" style="background: rgba(255,255,255,0.01); padding: 80px 40px;">
+<div style="max-width:1100px; margin:0 auto;">
+  <div class="section-label">Business Analysis</div>
+  <h2>User Stories & Acceptance Criteria</h2>
+  <p class="section-desc">Written following Agile BA methodology. Each story maps directly to a dashboard panel and includes testable acceptance criteria.</p>
+
+  <div class="story-grid">
+    <div class="story-card">
+      <div class="story-role">Investment Operations Manager</div>
+      <h3>Portfolio Health Dashboard</h3>
+      <p style="font-size:14px; color:#718096; font-style:italic; margin-bottom:12px;">
+        "I want a real-time view of all portfolio positions so I can identify issues before market open."
+      </p>
+      <div class="criteria">
+        <h4>Acceptance Criteria</h4>
+        <div class="criteria-item"><span class="check">✓</span><span>Color-coded verification status: Green >95%, Yellow 85-95%, Red &lt;85%</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>Missing price count visible at portfolio and security level</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>Asset class exposure shown as % breakdown per portfolio</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>Data refreshes within 15 minutes of market open</span></div>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-role">Trade Operations Analyst</div>
+      <h3>Transaction Monitor</h3>
+      <p style="font-size:14px; color:#718096; font-style:italic; margin-bottom:12px;">
+        "I want a live view of pending and failed settlements so I can act before the window closes."
+      </p>
+      <div class="criteria">
+        <h4>Acceptance Criteria</h4>
+        <div class="criteria-item"><span class="check">✓</span><span>FAILED transactions highlighted in red with broker name and reason</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>Duplicate transactions auto-flagged by broker/quantity/date matching</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>Settlement aging buckets: 0-1 days, 2-3 days, 4+ days</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>All at-risk settlements identifiable within 2 minutes</span></div>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-role">Business Architect / IT Manager</div>
+      <h3>Data Quality KPI Tracker</h3>
+      <p style="font-size:14px; color:#718096; font-style:italic; margin-bottom:12px;">
+        "I want a 30-day view of data incidents so I can report operational risk to senior management."
+      </p>
+      <div class="criteria">
+        <h4>Acceptance Criteria</h4>
+        <div class="criteria-item"><span class="check">✓</span><span>KPI scorecard: open, in-progress, resolved, resolution rate %</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>Issues by type: Missing Price, Duplicate, Settlement Fail, Recon Break</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>30-day trend line: issues raised vs. resolved</span></div>
+        <div class="criteria-item"><span class="check">✓</span><span>Management summary pullable in under 60 seconds</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TECH STACK -->
+<section>
+  <div class="section-label">Technical Stack</div>
+  <h2>Tools & Technologies</h2>
+  <p class="section-desc">Every tool used in this project was chosen because it appears in Acadian's BA role requirements.</p>
+  <div class="skills-grid">
+    <div class="skill-chip">PostgreSQL<span>Database & Queries</span></div>
+    <div class="skill-chip">Tableau<span>Dashboard & Visualization</span></div>
+    <div class="skill-chip">Python<span>Data Generation & Automation</span></div>
+    <div class="skill-chip">SQL<span>Advanced — HackerRank Certified</span></div>
+    <div class="skill-chip">Git / GitHub<span>Version Control</span></div>
+    <div class="skill-chip">Agile / Scrum<span>User Stories & Acceptance Criteria</span></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background: rgba(99,179,237,0.03); border-top: 1px solid rgba(99,179,237,0.1);">
+<div style="max-width:1100px; margin:0 auto; padding:80px 40px;">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-label">About</div>
+      <h2>Tanisha Kishan</h2>
+      <p>Master's student in Engineering Management at Northeastern University with a 3.7 GPA and a background in Computer Science. I built this project specifically for Acadian's Investment Operations BA Co-op role.</p>
+      <p>I am interested in this role because it sits at the intersection of data, systems, and business — translating complex datasets into decisions that matter. Acadian's systematic, data-first approach to investment management is exactly the environment I want to be working in.</p>
+      <div class="about-cta">
+        <a href="mailto:kishan.t@northeastern.edu" class="btn-primary">Get In Touch</a>
+        &nbsp;&nbsp;
+        <a href="https://linkedin.com/in/tanishakishan" class="btn-secondary" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="cert-list">
+      <div class="cert-item">
+        <strong>HackerRank SQL — Advanced</strong>
+        Certified — February 2026
+      </div>
+      <div class="cert-item">
+        <strong>HackerRank Python — Intermediate</strong>
+        Certified — February 2026
+      </div>
+      <div class="cert-item">
+        <strong>BCG Strategy Consulting Simulation</strong>
+        Data-driven strategy and business analysis
+      </div>
+      <div class="cert-item">
+        <strong>Accenture Data Analytics & Visualization</strong>
+        End-to-end data analysis and stakeholder communication
+      </div>
+      <div class="cert-item">
+        <strong>Cloud IoT Edge ML Fundamentals</strong>
+        Cloud and data infrastructure fundamentals
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Built by <strong>Tanisha Kishan</strong> &nbsp;·&nbsp;
+     <a href="mailto:kishan.t@northeastern.edu">kishan.t@northeastern.edu</a> &nbsp;·&nbsp;
+     609-428-3108 &nbsp;·&nbsp;
+     <a href="https://linkedin.com/in/tanishakishan" target="_blank">LinkedIn</a> &nbsp;·&nbsp;
+     <a href="https://github.com/tanishakishan" target="_blank">GitHub</a>
+  </p>
+  <p style="margin-top:8px; font-size:12px;">This project was built independently as part of a job application to Acadian Asset Management.</p>
+</footer>
+
+</body>
+</html>
