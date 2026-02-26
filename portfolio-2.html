@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tanisha Kishan — Investment Operations Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #1e2330;
+    --accent: #00d4a8;
+    --accent2: #4f8ef7;
+    --accent3: #f7c948;
+    --red: #f74f4f;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --subtle: #9ca3af;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(10,12,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(0,212,168,0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 20% 80%, rgba(79,142,247,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; max-width: 1200px; margin: 0 auto; width: 100%;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 2rem; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--subtle);
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+    line-height: 1.8;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    background: var(--accent);
+    color: #0a0c0f;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #00f0c0; transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border: 1px solid var(--border);
+    color: var(--subtle);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* HERO RIGHT — STATS CARD */
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.25rem; margin-bottom: 1.5rem;
+  }
+  .stat-item {}
+  .stat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .tech-stack {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .tech-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.3rem 0.7rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--subtle);
+    letter-spacing: 0.06em;
+  }
+
+  /* SECTION */
+  section { padding: 5rem 3rem; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block; width: 1.5rem; height: 1px;
+    background: var(--accent);
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.15;
+    color: var(--text);
+  }
+  h2 em { font-style: italic; color: var(--accent2); }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 3fr 2fr;
+    gap: 4rem; align-items: start;
+  }
+  .about-text p {
+    color: var(--subtle);
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    line-height: 1.85;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .about-text p em { color: var(--accent); font-style: normal; }
+  .skills-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+  }
+  .skills-card h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+  .skill-row {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-row:last-child { border-bottom: none; }
+  .skill-name { font-size: 0.85rem; color: var(--text); }
+  .skill-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  /* PROBLEM */
+  .problem-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .problem-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    position: relative;
+  }
+  .problem-card::before {
+    content: attr(data-num);
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--border);
+    line-height: 1;
+  }
+  .problem-icon {
+    font-size: 1.5rem; margin-bottom: 1rem;
+  }
+  .problem-card h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+  .problem-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* DASHBOARDS */
+  .dashboard-panel {
+    margin-bottom: 5rem;
+  }
+  .panel-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .panel-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--text);
+  }
+  .panel-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(0,212,168,0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .panel-link:hover { background: rgba(0,212,168,0.08); }
+  .dashboard-img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .panel-findings {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .finding {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .finding-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .finding-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  .finding-value.red { color: var(--red); }
+  .finding-value.yellow { color: var(--accent3); }
+  .finding-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* SQL */
+  .sql-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .sql-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .sql-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .sql-card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .sql-card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    letter-spacing: 0.06em;
+  }
+  .sql-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(79,142,247,0.12);
+    color: var(--accent2);
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+  }
+  pre {
+    padding: 1.25rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--subtle);
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .kw { color: var(--accent2); }
+  .fn { color: var(--accent); }
+  .str { color: var(--accent3); }
+  .cm { color: var(--muted); font-style: italic; }
+
+  /* WHY ACADIAN */
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: center;
+  }
+  .why-text p {
+    color: var(--subtle);
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 1.25rem;
+  }
+  .why-text p strong { color: var(--text); font-weight: 500; }
+  .why-text p em { color: var(--accent); font-style: normal; }
+  .why-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.85rem;
+  }
+  .why-list li {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    font-size: 0.9rem; color: var(--subtle);
+    line-height: 1.65;
+  }
+  .why-list li::before {
+    content: '→';
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .quote-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 2rem;
+  }
+  .quote-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .contact-inner {
+    max-width: 600px; margin: 0 auto;
+  }
+  .contact-section h2 { margin-bottom: 1rem; }
+  .contact-section p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+  .contact-links {
+    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid, .about-grid, .why-grid { grid-template-columns: 1fr; }
+    .problem-grid, .panel-findings, .sql-grid { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    section { padding: 3.5rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Tanisha Kishan</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#dashboards">Dashboards</a>
+    <a href="#sql">SQL</a>
+    <a href="#why">Why Acadian</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow">Built for Acadian Asset Management</div>
+      <h1>Investment <em>Operations</em> Intelligence Platform</h1>
+      <p class="hero-sub">A full-stack analytical system designed to surface portfolio risk, flag settlement failures, and eliminate data quality blind spots — before they become operational incidents.</p>
+      <div class="hero-cta">
+        <a href="#dashboards" class="btn-primary">↓ View Dashboards</a>
+        <a href="https://github.com/tanishakishan-21/acadian-ops-platform" target="_blank" class="btn-secondary">GitHub Repo ↗</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="card-label">// Project Scope</div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Fund Portfolios Modeled</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">11</div>
+          <div class="stat-label">SQL Analytical Queries</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Live Tableau Dashboards</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">$1.2B</div>
+          <div class="stat-label">AUM Simulated</div>
+        </div>
+      </div>
+      <div class="tech-stack">
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">Tableau</span>
+        <span class="tech-tag">SQL</span>
+        <span class="tech-tag">Data Modeling</span>
+        <span class="tech-tag">Ops Analytics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Background</div>
+      <h2>The person <em>behind the platform</em></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a data analyst with hands-on experience turning messy, complex datasets into decisions people can act on. My background spans <strong>business analytics, visualization, and process improvement</strong> — and I've spent a lot of time working on problems where the stakes of getting data wrong are real.</p>
+        <p>What drew me to investment operations specifically is this: <em>every bad trade, every settlement failure, every data quality gap has a number attached to it</em>. That accountability is something I find genuinely motivating. I don't just want to build reports. I want to build systems that catch problems before they land on a portfolio manager's desk.</p>
+        <p>I built this platform from scratch because I wanted to understand the operational layer of asset management — not just in theory, but by actually modeling the data, writing the queries, and designing the dashboards an ops team would use every morning. <strong>I learn fast, I care about the details, and I'm ready to contribute from day one.</strong></p>
+      </div>
+      <div class="skills-card">
+        <h3>// Core Competencies</h3>
+        <div class="skill-row">
+          <span class="skill-name">SQL & Data Modeling</span>
+          <span class="skill-level">Advanced</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Tableau Visualization</span>
+          <span class="skill-level">Proficient</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Business Analysis</span>
+          <span class="skill-level">Advanced</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Data Quality & Governance</span>
+          <span class="skill-level">Proficient</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Python / Analytics</span>
+          <span class="skill-level">Proficient</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Operations Workflow</span>
+          <span class="skill-level">Working</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Problem Statement</div>
+      <h2>What breaks in investment <em>operations</em></h2>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card" data-num="01">
+        <div class="problem-icon">📊</div>
+        <h3>No unified portfolio view</h3>
+        <p>Portfolio health, P&L, and exposure data live in separate systems. Operations teams spend hours reconciling instead of monitoring.</p>
+      </div>
+      <div class="problem-card" data-num="02">
+        <div class="problem-icon">⚠️</div>
+        <h3>Settlement failures go undetected</h3>
+        <p>Failed and pending settlements pile up without a real-time monitor. By the time someone notices, the cost and effort to fix it has multiplied.</p>
+      </div>
+      <div class="problem-card" data-num="03">
+        <div class="problem-icon">🔍</div>
+        <h3>Data quality is invisible</h3>
+        <p>Missing prices, duplicate records, and stale data corrupt downstream analytics. Without a systematic flag, these issues compound silently.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARDS -->
+<section id="dashboards">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Live Dashboards</div>
+      <h2>Three panels, <em>one operations picture</em></h2>
+    </div>
+
+    <!-- PANEL 1 -->
+    <div class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-number">// Panel 01</div>
+          <div class="panel-title">Portfolio Health</div>
+        </div>
+        <a href="https://public.tableau.com/views/dashboard1_17721337596760/Dashboard1" target="_blank" class="panel-link">View Live ↗</a>
+      </div>
+      <img src="Screenshot_2026-02-26_at_1_43_38_PM.png" alt="Panel 1 — Portfolio Health Dashboard" class="dashboard-img"/>
+      <div class="panel-findings">
+        <div class="finding">
+          <div class="finding-label">Total AUM</div>
+          <div class="finding-value">$1.2B</div>
+          <div class="finding-desc">Across 5 funds — Global Equity leads at $435M, followed by Low Volatility at $265M</div>
+        </div>
+        <div class="finding">
+          <div class="finding-label">Largest Unrealized P&L</div>
+          <div class="finding-value">$35M</div>
+          <div class="finding-desc">Acadian Global Equity Fund carrying the highest unrealized gain — a healthy signal for the strategy</div>
+        </div>
+        <div class="finding">
+          <div class="finding-label">Equity Concentration</div>
+          <div class="finding-value yellow">68%</div>
+          <div class="finding-desc">Equity dominates asset class exposure. Fixed Income at 29% — Cash and Derivatives minimal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 2 -->
+    <div class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-number">// Panel 02</div>
+          <div class="panel-title">Transaction Monitor</div>
+        </div>
+        <a href="https://public.tableau.com/views/dashboard2_17721337403920/Dashboard2" target="_blank" class="panel-link">View Live ↗</a>
+      </div>
+      <img src="Screenshot_2026-02-26_at_1_49_06_PM.png" alt="Panel 2 — Transaction Monitor Dashboard" class="dashboard-img"/>
+      <div class="panel-findings">
+        <div class="finding">
+          <div class="finding-label">Settlement Rate</div>
+          <div class="finding-value">53%</div>
+          <div class="finding-desc">8 of 15 transactions settled. 6 pending — these are the ones to watch as settlement date approaches</div>
+        </div>
+        <div class="finding">
+          <div class="finding-label">Failed Settlements</div>
+          <div class="finding-value red">1</div>
+          <div class="finding-desc">One failed transaction flagged for immediate review — this is the kind of item that needs same-day resolution</div>
+        </div>
+        <div class="finding">
+          <div class="finding-label">Buy/Sell Ratio</div>
+          <div class="finding-value">3:2</div>
+          <div class="finding-desc">Buy activity accelerating through Feb 12 — net positive positioning trend across portfolios</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 3 -->
+    <div class="dashboard-panel">
+      <div class="panel-header">
+        <div>
+          <div class="panel-number">// Panel 03</div>
+          <div class="panel-title">Data Quality KPIs</div>
+        </div>
+        <a href="https://public.tableau.com/views/dashboard3_17721337078920/Dashboard3" target="_blank" class="panel-link">View Live ↗</a>
+      </div>
+      <img src="Screenshot_2026-02-26_at_1_44_46_PM.png" alt="Panel 3 — Data Quality Dashboard" class="dashboard-img"/>
+      <div class="panel-findings">
+        <div class="finding">
+          <div class="finding-label">Issue Types Tracked</div>
+          <div class="finding-value">6</div>
+          <div class="finding-desc">Missing Price, Duplicate, Settlement Failure, Stale Data, Reconciliation Break, Unverified — all monitored</div>
+        </div>
+        <div class="finding">
+          <div class="finding-label">Highest Risk Fund</div>
+          <div class="finding-value red">EMF</div>
+          <div class="finding-desc">Acadian Emerging Markets Fund has the most open issues — 2 in progress, 2 open, correlating with missing Vodafone pricing</div>
+        </div>
+        <div class="finding">
+          <div class="finding-label">Resolution Trend</div>
+          <div class="finding-value yellow">↑</div>
+          <div class="finding-desc">Issues peak Feb 10-12 and taper off as the team resolves them — a healthy workflow pattern</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SQL -->
+<section class="sql-section" id="sql">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Technical Work</div>
+      <h2>The SQL <em>underneath</em></h2>
+    </div>
+    <div class="sql-grid">
+      <div class="sql-card">
+        <div class="sql-card-header">
+          <span class="sql-card-title">portfolio_exposure.sql</span>
+          <span class="sql-badge">Window Function</span>
+        </div>
+        <pre><span class="cm">-- Asset class exposure % per portfolio</span>
+<span class="kw">SELECT</span>
+  p.portfolio_name,
+  pos.asset_class,
+  <span class="fn">SUM</span>(pos.market_value_usd) <span class="kw">AS</span> class_value,
+  <span class="fn">ROUND</span>(
+    <span class="fn">SUM</span>(pos.market_value_usd) * 100.0
+    / <span class="fn">SUM</span>(<span class="fn">SUM</span>(pos.market_value_usd))
+      <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> p.portfolio_id), 2
+  ) <span class="kw">AS</span> exposure_pct
+<span class="kw">FROM</span> portfolios p
+<span class="kw">JOIN</span> positions pos
+  <span class="kw">ON</span> p.portfolio_id = pos.portfolio_id
+<span class="kw">GROUP BY</span> 1, 2
+<span class="kw">ORDER BY</span> 1, exposure_pct <span class="kw">DESC</span>;</pre>
+      </div>
+      <div class="sql-card">
+        <div class="sql-card-header">
+          <span class="sql-card-title">settlement_risk.sql</span>
+          <span class="sql-badge">Risk Flag</span>
+        </div>
+        <pre><span class="cm">-- Flag pending settlements past T+2</span>
+<span class="kw">SELECT</span>
+  t.transaction_id,
+  p.portfolio_name,
+  t.ticker,
+  t.settlement_status,
+  t.trade_date,
+  t.settlement_date,
+  <span class="fn">CURRENT_DATE</span> - t.settlement_date
+    <span class="kw">AS</span> days_overdue
+<span class="kw">FROM</span> transactions t
+<span class="kw">JOIN</span> portfolios p
+  <span class="kw">ON</span> t.portfolio_id = p.portfolio_id
+<span class="kw">WHERE</span>
+  t.settlement_status <span class="kw">IN</span> (
+    <span class="str">'PENDING'</span>, <span class="str">'FAILED'</span>
+  )
+  <span class="kw">AND</span> <span class="fn">CURRENT_DATE</span> > t.settlement_date
+<span class="kw">ORDER BY</span> days_overdue <span class="kw">DESC</span>;</pre>
+      </div>
+      <div class="sql-card">
+        <div class="sql-card-header">
+          <span class="sql-card-title">data_quality_score.sql</span>
+          <span class="sql-badge">Aggregation</span>
+        </div>
+        <pre><span class="cm">-- DQ score by portfolio and severity</span>
+<span class="kw">SELECT</span>
+  portfolio_name,
+  <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total_issues,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> severity = <span class="str">'HIGH'</span>
+    <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>) <span class="kw">AS</span> high_sev,
+  <span class="fn">ROUND</span>(
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span>
+      resolution_status = <span class="str">'RESOLVED'</span>
+      <span class="kw">THEN</span> 1.0 <span class="kw">ELSE</span> 0 <span class="kw">END</span>)
+    / <span class="fn">COUNT</span>(*) * 100, 1
+  ) <span class="kw">AS</span> resolution_rate_pct
+<span class="kw">FROM</span> data_quality_log
+<span class="kw">GROUP BY</span> 1
+<span class="kw">ORDER BY</span> high_sev <span class="kw">DESC</span>;</pre>
+      </div>
+      <div class="sql-card">
+        <div class="sql-card-header">
+          <span class="sql-card-title">pnl_summary.sql</span>
+          <span class="sql-badge">Ranking</span>
+        </div>
+        <pre><span class="cm">-- Top performing positions by P&L</span>
+<span class="kw">SELECT</span>
+  p.portfolio_name,
+  pos.ticker,
+  pos.asset_class,
+  pos.unrealized_pnl,
+  <span class="fn">RANK</span>() <span class="kw">OVER</span> (
+    <span class="kw">PARTITION BY</span> pos.portfolio_id
+    <span class="kw">ORDER BY</span> pos.unrealized_pnl <span class="kw">DESC</span>
+  ) <span class="kw">AS</span> pnl_rank
+<span class="kw">FROM</span> positions pos
+<span class="kw">JOIN</span> portfolios p
+  <span class="kw">ON</span> pos.portfolio_id = p.portfolio_id
+<span class="kw">WHERE</span> pos.unrealized_pnl > 0
+<span class="kw">ORDER BY</span> p.portfolio_name, pnl_rank;</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ACADIAN -->
+<section id="why">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Motivation</div>
+      <h2>Why <em>Acadian</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-text">
+        <p>I've worked in data long enough to know that <strong>most companies collect data, but few actually operationalize it</strong>. Acadian is genuinely different. The systematic, quantitative approach to investing means that data quality isn't a nice-to-have — it's the engine. When the alpha signal depends on clean, timely, accurate data, every gap in the operations layer has a real cost.</p>
+        <p>That's the environment I want to work in. <em>Where what I build actually matters to the outcome.</em> Not just reporting on the past, but building infrastructure that protects performance going forward.</p>
+        <p>I'm early in my career, but I'm not new to moving fast and figuring things out. I built this entire platform — schema, queries, dashboards, and analysis — to show you how I think, not just what I know. <strong>Give me a seat at the table and I will earn it every day.</strong></p>
+      </div>
+      <div>
+        <div class="quote-card">
+          <div class="quote-text">"The best analysts I've seen don't wait to be handed the problem. They find it, frame it, and show you what it costs."</div>
+          <div class="quote-attr">// Tanisha Kishan — how I approach every role</div>
+        </div>
+        <br/>
+        <ul class="why-list">
+          <li>Acadian's quant-first culture means data work is respected and central — not siloed</li>
+          <li>The Investment Operations team sits at the intersection of technology, finance, and risk — exactly where I want to grow</li>
+          <li>Boston-based, mission-driven, and building tools that matter at scale</li>
+          <li>I want to understand how a systematic manager actually runs end-to-end — this is the best place to learn it</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div class="section-eyebrow" style="justify-content:center">Let's talk</div>
+      <h2>Ready to <em>contribute</em></h2>
+      <p>I'd love 15 minutes to walk you through this platform and talk about how I can be useful to the Investment Operations team.</p>
+      <div class="contact-links">
+        <a href="mailto:kishan.t@northeastern.edu" class="btn-primary">kishan.t@northeastern.edu</a>
+        <a href="https://github.com/tanishakishan-21/acadian-ops-platform" target="_blank" class="btn-secondary">GitHub Repo ↗</a>
+        <a href="https://public.tableau.com/app/profile/tanishakishan" target="_blank" class="btn-secondary">Tableau Public ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Tanisha Kishan — Built specifically for Acadian Asset Management</p>
+  <p>PostgreSQL · Tableau · SQL · Investment Operations</p>
+</footer>
+
+</body>
+</html>
